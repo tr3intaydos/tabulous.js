@@ -9,7 +9,8 @@
     var pluginName = "tabulous",
         defaults = {
             effect: 'scale',
-            target_class: 'tab-content'
+            target_class: 'tab-content',
++           mainDiv: '#tabs_container'
         };
 
        // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
@@ -41,12 +42,12 @@
                 tab_content = this.$elem.find('.' + this.options.target_class).not(':first').not(':nth-child(1)').addClass('hideflip');
             }
 
-            var firstdiv = this.$elem.find('#tabs_container');
+            var firstdiv = $( this.options.mainDiv );
             var firstdivheight = firstdiv.find('div:first').height();
 
             var alldivs = this.$elem.find('div:first').find('.' + this.options.target_class);
 
-            alldivs.css({'position': 'absolute','top':'40px'});
+            alldivs.css({'position': 'absolute'});
 
             firstdiv.css('height',firstdivheight+'px');
 
@@ -67,7 +68,7 @@
 
                 links.removeClass('tabulous_active');
                 mythis.addClass('tabulous_active');
-                thisdivwidth = thisform.find('div'+thislink).height();
+                thisdivwidth = thisform.find('div'+thislink).outerHeight();
 
                 if (effect == 'scale') {
                     alldivs.removeClass('showscale').addClass('make_transist').addClass('hidescale');
