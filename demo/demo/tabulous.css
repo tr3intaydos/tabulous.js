@@ -81,6 +81,7 @@ p {
 	filter: alpha(opacity=0);
 	filter: alpha(opacity=0);
 	opacity: 0;
+	display: none;
 }
 
 .showscale {
@@ -98,6 +99,7 @@ p {
 	-o-transition-delay: .3s;
 	-ms-transition-delay: .3s;
 	transition-delay: .3s;
+	display: block;
 }
 
 .hideleft {
