@@ -1,5 +1,5 @@
 /*!
- * strength.js
+ * tabulous.js
  * Original author: @aaronlumsden
  * Further changes, comments: @aaronlumsden
  * Licensed under the MIT license
@@ -10,10 +10,8 @@
         defaults = {
             effect: 'scale',
             target_class: 'tab-content',
-+           mainDiv: '#tabs_container'
+			mainDiv: '#tabs_container'
         };
-
-       // $('<style>body { background-color: red; color: white; }</style>').appendTo('head');
 
     function Plugin( element, options ) {
         this.element = element;
@@ -32,18 +30,19 @@
             var firstchild = this.$elem.find('li:first-child').find('a');
             var lastchild = this.$elem.find('li:last-child').after('<span class="tabulousclear"></span>');
 
+			tab_content = this.$elem.find('.' + this.options.target_class).not(':first').not(':nth-child(1)');
             if (this.options.effect == 'scale') {
-                tab_content = this.$elem.find('.' + this.options.target_class).not(':first').not(':nth-child(1)').addClass('hidescale');
+                tab_content.addClass('hidescale');
             } else if (this.options.effect == 'slideLeft') {
-                tab_content = this.$elem.find('.' + this.options.target_class).not(':first').not(':nth-child(1)').addClass('hideleft');
+                tab_content.addClass('hideleft');
             } else if (this.options.effect == 'scaleUp') {
-                tab_content = this.$elem.find('.' + this.options.target_class).not(':first').not(':nth-child(1)').addClass('hidescaleup');
+                tab_content.addClass('hidescaleup');
             } else if (this.options.effect == 'flip') {
-                tab_content = this.$elem.find('.' + this.options.target_class).not(':first').not(':nth-child(1)').addClass('hideflip');
+                tab_content.addClass('hideflip');
             }
 
             var firstdiv = $( this.options.mainDiv );
-            var firstdivheight = firstdiv.find('div:first').height();
+            var firstdivheight = firstdiv.find('div:first').outerHeight();
 
             var alldivs = this.$elem.find('div:first').find('.' + this.options.target_class);
 
@@ -60,7 +59,7 @@
                 var effect = $options.effect;
 
                 var mythis = $(this);
-                var thisform = mythis.parent().parent().parent();
+                var thisform = $( $options.mainDiv );
                 var thislink = mythis.attr('href');
 
 
@@ -69,30 +68,26 @@
                 links.removeClass('tabulous_active');
                 mythis.addClass('tabulous_active');
                 thisdivwidth = thisform.find('div'+thislink).outerHeight();
-
+				
+				alldivs.addClass('make_transist');
+				thisform.find('div'+thislink).addClass('make_transist')
+				
                 if (effect == 'scale') {
-                    alldivs.removeClass('showscale').addClass('make_transist').addClass('hidescale');
-                    thisform.find('div'+thislink).addClass('make_transist').addClass('showscale');
+                    alldivs.removeClass('showscale').addClass('hidescale');
+                    thisform.find('div'+thislink).addClass('showscale');
                 } else if (effect == 'slideLeft') {
-                    alldivs.removeClass('showleft').addClass('make_transist').addClass('hideleft');
-                    thisform.find('div'+thislink).addClass('make_transist').addClass('showleft');
+                    alldivs.removeClass('showleft').addClass('hideleft');
+                    thisform.find('div'+thislink).addClass('showleft');
                 } else if (effect == 'scaleUp') {
-                    alldivs.removeClass('showscaleup').addClass('make_transist').addClass('hidescaleup');
-                    thisform.find('div'+thislink).addClass('make_transist').addClass('showscaleup');
+                    alldivs.removeClass('showscaleup').addClass('hidescaleup');
+                    thisform.find('div'+thislink).addClass('showscaleup');
                 } else if (effect == 'flip') {
-                    alldivs.removeClass('showflip').addClass('make_transist').addClass('hideflip');
-                    thisform.find('div'+thislink).addClass('make_transist').addClass('showflip');
+                    alldivs.removeClass('showflip').addClass('hideflip');
+                    thisform.find('div'+thislink).addClass('showflip');
                 }
 
-
                 firstdiv.css('height',thisdivwidth+'px');
-
             });
-
-        },
-
-        yourOtherFunction: function(el, options) {
-            // some logic
         }
     };
 
