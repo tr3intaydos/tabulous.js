@@ -10,7 +10,13 @@
         defaults = {
             effect: 'scale',
             target_class: 'tab-content',
-			mainDiv: '#tabs_container'
+			mainDiv: '#tabs_container',
+			lookupTable: {
+				scale: ["hidescale", "showscale"],
+				slideLeft: ["hideleft", "showleft"],
+				scaleUp: ["hidescaleup", "hidescaleup"],
+				flip: ["hideflip", "showflip"],
+			}
         };
 
     function Plugin( element, options ) {
@@ -31,15 +37,8 @@
             var lastchild = this.$elem.find('li:last-child').after('<span class="tabulousclear"></span>');
 
 			tab_content = this.$elem.find('.' + this.options.target_class).not(':first').not(':nth-child(1)');
-            if (this.options.effect == 'scale') {
-                tab_content.addClass('hidescale');
-            } else if (this.options.effect == 'slideLeft') {
-                tab_content.addClass('hideleft');
-            } else if (this.options.effect == 'scaleUp') {
-                tab_content.addClass('hidescaleup');
-            } else if (this.options.effect == 'flip') {
-                tab_content.addClass('hideflip');
-            }
+
+            tab_content.addClass(this.options.lookupTable[this.options.effect][0]);
 
             var firstdiv = $( this.options.mainDiv );
             var firstdivheight = firstdiv.find('div:first').outerHeight();
@@ -68,23 +67,14 @@
                 links.removeClass('tabulous_active');
                 mythis.addClass('tabulous_active');
                 thisdivwidth = thisform.find('div'+thislink).outerHeight();
-				
+                
 				alldivs.addClass('make_transist');
 				thisform.find('div'+thislink).addClass('make_transist')
 				
-                if (effect == 'scale') {
-                    alldivs.removeClass('showscale').addClass('hidescale');
-                    thisform.find('div'+thislink).addClass('showscale');
-                } else if (effect == 'slideLeft') {
-                    alldivs.removeClass('showleft').addClass('hideleft');
-                    thisform.find('div'+thislink).addClass('showleft');
-                } else if (effect == 'scaleUp') {
-                    alldivs.removeClass('showscaleup').addClass('hidescaleup');
-                    thisform.find('div'+thislink).addClass('showscaleup');
-                } else if (effect == 'flip') {
-                    alldivs.removeClass('showflip').addClass('hideflip');
-                    thisform.find('div'+thislink).addClass('showflip');
-                }
+				alldivs.removeClass($options.lookupTable[$options.effect][1])
+						.addClass($options.lookupTable[$options.effect][0]);
+				
+				thisform.find('div'+thislink).addClass($options.lookupTable[$options.effect][1]);
 
                 firstdiv.css('height',thisdivwidth+'px');
             });
